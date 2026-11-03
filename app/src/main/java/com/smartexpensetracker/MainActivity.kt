@@ -37,6 +37,11 @@ import androidx.compose.runtime.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -45,6 +50,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.CoroutineScope
@@ -521,82 +527,289 @@ private fun TrackerApp(db: ExpenseDatabase, activity: ComponentActivity) {
     if (showEditor) {
         AlertDialog(
             onDismissRequest = { showEditor = false },
-            title = { Text(if (editingId == null) "Add transaction" else "Edit transaction") },
+            shape = RoundedCornerShape(26.dp),
+            containerColor = Color.White,
+            titleContentColor = Color(0xFF0B1F3A),
+            textContentColor = Color(0xFF202235),
+            title = {
+                Text(
+                    text = if (editingId == null) "Add transaction" else "Edit transaction",
+                    fontFamily = Poppins,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    color = Color(0xFF0B1F3A)
+                )
+            },
             text = {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.padding(top = 4.dp)) {
                     OutlinedTextField(
                         value = amountText,
                         onValueChange = { amountText = it },
                         label = { Text("Amount ₹") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                         singleLine = true,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(14.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = Color(0xFF0B1F3A),
+                            unfocusedBorderColor = Color(0xFFD7DCE5),
+                            focusedLabelColor = Color(0xFF0B1F3A),
+                            unfocusedLabelColor = Color(0xFF7A8495),
+                            focusedTextColor = Color(0xFF182338),
+                            unfocusedTextColor = Color(0xFF182338),
+                            cursorColor = Color(0xFF0B1F3A)
+                        )
                     )
                     OutlinedTextField(
                         value = merchantText,
                         onValueChange = { merchantText = it },
                         label = { Text("Merchant / receiver") },
                         singleLine = true,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(14.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = Color(0xFF0B1F3A),
+                            unfocusedBorderColor = Color(0xFFD7DCE5),
+                            focusedLabelColor = Color(0xFF0B1F3A),
+                            unfocusedLabelColor = Color(0xFF7A8495),
+                            focusedTextColor = Color(0xFF182338),
+                            unfocusedTextColor = Color(0xFF182338),
+                            cursorColor = Color(0xFF0B1F3A)
+                        )
                     )
                     if (editingId != null && originalSenderForRule.isNotBlank() && originalMerchantForRule.isNotBlank()) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).background(Color(0xFFF5F7FA)).padding(horizontal = 8.dp, vertical = 4.dp)) {
                             Checkbox(
                                 checked = rememberMerchantRule,
                                 onCheckedChange = { rememberMerchantRule = it }
                             )
-                            Text("Remember this merchant for matching SMS", color = Ink, fontSize = 12.sp)
+                            Text("Remember merchant for matching SMS", color = Ink, fontFamily = Poppins, fontSize = 12.sp, lineHeight = 16.sp)
                         }
                     }
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
                         FilterChip(
                             selected = transactionType == "EXPENSE",
                             onClick = { transactionType = "EXPENSE" },
-                            label = { Text("Expense") }
+                            label = {
+                                Text(
+                                    "Expense",
+                                    fontFamily = Poppins,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = if (transactionType == "EXPENSE") Color.White else Color(0xFF0B1F3A)
+                                )
+                            },
+                            shape = RoundedCornerShape(12.dp),
+                            colors = FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = Color(0xFF0B1F3A),
+                                selectedLabelColor = Color.White,
+                                containerColor = Color.White,
+                                labelColor = Color(0xFF0B1F3A)
+                            ),
+                            border = FilterChipDefaults.filterChipBorder(
+                                enabled = true,
+                                selected = transactionType == "EXPENSE",
+                                borderColor = Color(0xFF0B1F3A),
+                                selectedBorderColor = Color(0xFF0B1F3A)
+                            )
                         )
                         FilterChip(
                             selected = transactionType == "INCOME",
                             onClick = { transactionType = "INCOME" },
-                            label = { Text("Income") }
+                            label = {
+                                Text(
+                                    "Income",
+                                    fontFamily = Poppins,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = if (transactionType == "INCOME") Color.White else Color(0xFF0B1F3A)
+                                )
+                            },
+                            shape = RoundedCornerShape(12.dp),
+                            colors = FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = Color(0xFF0B1F3A),
+                                selectedLabelColor = Color.White,
+                                containerColor = Color.White,
+                                labelColor = Color(0xFF0B1F3A)
+                            ),
+                            border = FilterChipDefaults.filterChipBorder(
+                                enabled = true,
+                                selected = transactionType == "INCOME",
+                                borderColor = Color(0xFF0B1F3A),
+                                selectedBorderColor = Color(0xFF0B1F3A)
+                            )
                         )
                     }
                     var expanded by remember { mutableStateOf(false) }
+                    var categoryInput by remember { mutableStateOf(category) }
+                    val categoryFocusRequester = remember { FocusRequester() }
+                    val categoryKeyboardController = LocalSoftwareKeyboardController.current
+                    val paleViolet = Color(0xFFF2EEFF)
+                    val selectedViolet = Color(0xFFE5DCFF)
+                    val violetAccent = Color(0xFF7C5CDB)
+
+                    // The category input itself is searchable; no separate search bar is shown.
+                    LaunchedEffect(showEditor, editingId) {
+                        categoryInput = category
+                    }
+
                     ExposedDropdownMenuBox(
                         expanded = expanded,
-                        onExpandedChange = { expanded = it }
+                        onExpandedChange = { isExpanded ->
+                            expanded = isExpanded
+                            if (isExpanded) {
+                                categoryInput = category
+                            }
+                        }
                     ) {
                         OutlinedTextField(
-                            value = category,
-                            onValueChange = {},
-                            readOnly = true,
-                            label = { Text("Category") },
-                            modifier = Modifier.menuAnchor(type = MenuAnchorType.PrimaryNotEditable, enabled = true).fillMaxWidth()
+                            value = categoryInput,
+                            onValueChange = { typed ->
+                                categoryInput = typed
+                                expanded = true
+                            },
+                            label = {
+                                Text(
+                                    "Category",
+                                    fontFamily = Poppins,
+                                    fontWeight = FontWeight.Medium
+                                )
+                            },
+                            singleLine = true,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .menuAnchor(
+                                    type = MenuAnchorType.PrimaryEditable,
+                                    enabled = true
+                                )
+                                .focusRequester(categoryFocusRequester)
+                                .onFocusChanged { focusState ->
+                                    if (focusState.isFocused) expanded = true
+                                },
+                            shape = RoundedCornerShape(18.dp),
+                            trailingIcon = {
+                                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                            },
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = violetAccent,
+                                unfocusedBorderColor = Color(0xFFD8D1EA),
+                                focusedLabelColor = violetAccent,
+                                unfocusedLabelColor = Muted,
+                                focusedTextColor = Ink,
+                                unfocusedTextColor = Ink,
+                                cursorColor = violetAccent
+                            ),
+                            textStyle = androidx.compose.ui.text.TextStyle(
+                                fontFamily = Poppins,
+                                fontSize = 13.sp,
+                                color = Ink
+                            ),
+                            keyboardOptions = KeyboardOptions(
+                                keyboardType = KeyboardType.Text,
+                                imeAction = androidx.compose.ui.text.input.ImeAction.Search
+                            )
                         )
+
+                        val filteredCategories = categories.filter {
+                            it.contains(categoryInput.trim(), ignoreCase = true)
+                        }
+
                         ExposedDropdownMenu(
                             expanded = expanded,
-                            onDismissRequest = { expanded = false }
+                            onDismissRequest = { expanded = false },
+                            modifier = Modifier
+                                .exposedDropdownSize(matchTextFieldWidth = true)
+                                .clip(RoundedCornerShape(36.dp))
+                                .background(paleViolet)
+                                .heightIn(max = 300.dp)
+                                .padding(5.dp)
                         ) {
-                            categories.forEach { option ->
-                                DropdownMenuItem(
-                                    text = { Text(option) },
-                                    onClick = {
-                                        category = option
-                                        expanded = false
+                            filteredCategories.forEach { option ->
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 4.dp, vertical = 3.dp)
+                                        .clip(RoundedCornerShape(24.dp))
+                                        .background(
+                                            if (category.equals(option, ignoreCase = true))
+                                                selectedViolet else Color.Transparent
+                                        )
+                                        .clickable {
+                                            category = option
+                                            categoryInput = option
+                                            expanded = false
+                                            categoryKeyboardController?.hide()
+                                        }
+                                        .padding(horizontal = 14.dp, vertical = 11.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = option,
+                                        fontFamily = Poppins,
+                                        fontWeight = if (category.equals(option, ignoreCase = true))
+                                            FontWeight.SemiBold else FontWeight.Normal,
+                                        fontSize = 12.sp,
+                                        color = Ink,
+                                        modifier = Modifier.weight(1f)
+                                    )
+                                    if (category.equals(option, ignoreCase = true)) {
+                                        Icon(
+                                            imageVector = Icons.Default.Check,
+                                            contentDescription = "Selected",
+                                            tint = violetAccent,
+                                            modifier = Modifier.size(16.dp)
+                                        )
                                     }
-                                )
+                                }
+                            }
+
+                            val typedCategory = categoryInput.trim()
+                            if (typedCategory.isNotEmpty() &&
+                                categories.none { it.equals(typedCategory, ignoreCase = true) }
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 4.dp, vertical = 3.dp)
+                                        .clip(RoundedCornerShape(24.dp))
+                                        .background(Color(0xFFEDE5FF))
+                                        .clickable {
+                                            category = typedCategory
+                                            categoryInput = typedCategory
+                                            expanded = false
+                                            categoryKeyboardController?.hide()
+                                        }
+                                        .padding(horizontal = 14.dp, vertical = 11.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Add,
+                                        contentDescription = "Add category",
+                                        tint = violetAccent,
+                                        modifier = Modifier.size(16.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(7.dp))
+                                    Text(
+                                        text = "Add '$typedCategory'",
+                                        fontFamily = Poppins,
+                                        fontWeight = FontWeight.SemiBold,
+                                        fontSize = 12.sp,
+                                        color = violetAccent
+                                    )
+                                }
                             }
                         }
                     }
                     if (editingId != null) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).background(Color(0xFFF5F7FA)).padding(horizontal = 8.dp, vertical = 4.dp)) {
                             Checkbox(
                                 checked = applyCategoryToAll,
                                 onCheckedChange = { applyCategoryToAll = it }
                             )
                             Text(
-                                "Apply this category to all transactions",
+                                "Apply category only to this receiver",
                                 color = Ink,
-                                fontSize = 12.sp
+                                fontFamily = Poppins,
+                                fontSize = 12.sp,
+                                lineHeight = 16.sp
                             )
                         }
                     }
@@ -632,10 +845,21 @@ private fun TrackerApp(db: ExpenseDatabase, activity: ComponentActivity) {
                                     )
                                 }
                             }
-                            if (applyCategoryToAll) {
-                                transactions.forEach { transaction ->
-                                    if (transaction.category != category) {
-                                        dao.update(transaction.copy(category = category))
+                            if (applyCategoryToAll && editingId != null) {
+                                // Apply the selected category only to transactions from this same receiver/merchant.
+                                val editedTransaction = dao.getById(editingId!!)
+                                val targetReceiver = (editedTransaction?.receiver?.takeIf { it.isNotBlank() }
+                                    ?: editedTransaction?.merchant.orEmpty()).trim()
+
+                                if (targetReceiver.isNotBlank()) {
+                                    transactions.forEach { transaction ->
+                                        val transactionReceiver = (transaction.receiver.takeIf { it.isNotBlank() }
+                                            ?: transaction.merchant).trim()
+                                        if (transactionReceiver.equals(targetReceiver, ignoreCase = true) &&
+                                            transaction.category != category
+                                        ) {
+                                            dao.update(transaction.copy(category = category))
+                                        }
                                     }
                                 }
                             }
@@ -657,10 +881,10 @@ private fun TrackerApp(db: ExpenseDatabase, activity: ComponentActivity) {
                     } else {
                         Toast.makeText(activity, "Enter a valid amount and merchant", Toast.LENGTH_SHORT).show()
                     }
-                }) { Text("Save") }
+                }) { Text("Save", fontFamily = Poppins, fontWeight = FontWeight.SemiBold, color = Color(0xFF0B1F3A)) }
             },
             dismissButton = {
-                TextButton(onClick = { showEditor = false }) { Text("Cancel") }
+                TextButton(onClick = { showEditor = false }) { Text("Cancel", fontFamily = Poppins, fontWeight = FontWeight.Medium, color = Color(0xFF667085)) }
             }
         )
     }
@@ -801,6 +1025,9 @@ private fun TransactionsPage(
     var quickCategory by remember { mutableStateOf("All") }
     var filterCategory by remember { mutableStateOf("All") }
     var filterType by remember { mutableStateOf("All") }
+    var filterFromDate by remember { mutableStateOf<Long?>(null) }
+    var filterToDate by remember { mutableStateOf<Long?>(null) }
+    var datePickerTarget by remember { mutableStateOf<String?>(null) }
 
     val calendar = remember {
         java.util.Calendar.getInstance().apply {
@@ -830,20 +1057,20 @@ private fun TransactionsPage(
                     money(txn.amount).contains(query, ignoreCase = true)
         }
         .filter { txn ->
-            when (quickCategory) {
-                "Food" -> txn.category.contains("Food", ignoreCase = true) ||
-                        txn.category.contains("Dining", ignoreCase = true)
-                "Transport" -> txn.category.contains("Transport", ignoreCase = true)
-                "Utilities" -> txn.category.contains("Bill", ignoreCase = true) ||
-                        txn.category.contains("Utilit", ignoreCase = true)
-                else -> true
-            }
+            quickCategory == "All" ||
+                    txn.category.equals(quickCategory, ignoreCase = true)
         }
         .filter { txn ->
             filterCategory == "All" || txn.category.equals(filterCategory, ignoreCase = true)
         }
         .filter { txn ->
             filterType == "All" || txn.transactionType.equals(filterType, ignoreCase = true)
+        }
+        .filter { txn ->
+            val from = filterFromDate
+            val to = filterToDate
+            (from == null || txn.transactionDate >= from) &&
+                    (to == null || txn.transactionDate < to + 86_400_000L)
         }
         .sortedByDescending { it.transactionDate }
 
@@ -979,7 +1206,7 @@ private fun TransactionsPage(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                listOf("All", "Food", "Transport", "Utilities").forEach { quick ->
+                (listOf("All") + categories).distinct().forEach { quick ->
                     FilterChip(
                         selected = quickCategory == quick,
                         onClick = { quickCategory = quick },
@@ -1190,47 +1417,334 @@ private fun TransactionsPage(
     }
 
     if (showFilterSheet) {
-        ModalBottomSheet(onDismissRequest = { showFilterSheet = false }) {
+        // Render Filter Transactions as a centered standard dialog (not a bottom sheet).
+        // Dialog stays compact and does not expand when the user swipes.
+        val screenHeightDp = LocalConfiguration.current.screenHeightDp.dp
+        val filterPopupHeight = (screenHeightDp * 0.70f).coerceAtMost(620.dp)
+        Dialog(onDismissRequest = { showFilterSheet = false }) {
             Column(
-                Modifier.fillMaxWidth().padding(horizontal = 20.dp).padding(bottom = 24.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                modifier = Modifier
+                    .fillMaxWidth(0.94f)
+                    .height(filterPopupHeight)
+                    .clip(RoundedCornerShape(28.dp))
+                    .background(Color(0xFFF7F3FC))
+                    .padding(top = 16.dp)
             ) {
-                Text("Filter transactions", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                Text("Transaction type", fontWeight = FontWeight.SemiBold)
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    listOf("All", "INCOME", "EXPENSE").forEach { type ->
-                        FilterChip(
-                            selected = filterType == type,
-                            onClick = { filterType = type },
-                            label = { Text(if (type == "All") "All" else type.lowercase().replaceFirstChar { ch -> ch.uppercase() }) }
-                        )
-                    }
-                }
-                Text("Category", fontWeight = FontWeight.SemiBold)
+                var categoryMenuExpanded by remember { mutableStateOf(false) }
+                var filterCategorySearch by remember { mutableStateOf("") }
+
                 Column(
-                    Modifier.fillMaxWidth().heightIn(max = 220.dp).verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .navigationBarsPadding()
+                        .imePadding()
+                        .padding(horizontal = 20.dp)
+                        .padding(bottom = 8.dp)
                 ) {
-                    (listOf("All") + categories).distinct().forEach { cat ->
+                    // Scrollable filter controls stay within the available sheet height.
+                    Column(
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth()
+                            .verticalScroll(rememberScrollState()),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        Text(
+                            text = "Filter transactions",
+                            fontFamily = Poppins,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Ink
+                        )
+
+                        Text(
+                            text = "Transaction type",
+                            fontFamily = Poppins,
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Ink
+                        )
+
                         Row(
-                            Modifier.fillMaxWidth().clickable { filterCategory = cat }.padding(vertical = 5.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
-                            RadioButton(selected = filterCategory == cat, onClick = { filterCategory = cat })
-                            Text(cat)
+                            listOf("All", "INCOME", "EXPENSE").forEach { type ->
+                                val selected = filterType == type
+                                FilterChip(
+                                    selected = selected,
+                                    onClick = { filterType = type },
+                                    label = {
+                                        Text(
+                                            text = if (type == "All") "All" else type.lowercase().replaceFirstChar { ch -> ch.uppercase() },
+                                            fontFamily = Poppins,
+                                            fontSize = 12.sp,
+                                            fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal
+                                        )
+                                    },
+                                    colors = FilterChipDefaults.filterChipColors(
+                                        selectedContainerColor = Color(0xFF25205A),
+                                        selectedLabelColor = Color.White,
+                                        containerColor = Color.White,
+                                        labelColor = Ink
+                                    ),
+                                    border = FilterChipDefaults.filterChipBorder(
+                                        enabled = true,
+                                        selected = selected,
+                                        borderColor = Color(0xFFD8CFF0),
+                                        selectedBorderColor = Color(0xFF25205A)
+                                    )
+                                )
+                            }
+                        }
+
+                        Text(
+                            text = "Date range",
+                            fontFamily = Poppins,
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Ink
+                        )
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            listOf("From date" to filterFromDate, "To date" to filterToDate).forEach { (label, selectedDate) ->
+                                Column(
+                                    modifier = Modifier.weight(1f),
+                                    verticalArrangement = Arrangement.spacedBy(7.dp)
+                                ) {
+                                    // Date label stays outside the input field for a cleaner form layout.
+                                    Text(
+                                        text = label,
+                                        fontFamily = Poppins,
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Medium,
+                                        color = Ink
+                                    )
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .clip(RoundedCornerShape(24.dp))
+                                            .background(Color.White)
+                                            .border(1.dp, Color(0xFFD8CFF0), RoundedCornerShape(24.dp))
+                                            .clickable {
+                                                datePickerTarget = if (label == "From date") "from" else "to"
+                                            }
+                                            .padding(horizontal = 12.dp, vertical = 13.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            selectedDate?.let { formatFilterDate(it) } ?: "Select date",
+                                            fontFamily = Poppins,
+                                            fontSize = 12.sp,
+                                            color = Ink,
+                                            modifier = Modifier.weight(1f)
+                                        )
+                                        Icon(
+                                            Icons.Default.CalendarMonth,
+                                            contentDescription = "Choose $label",
+                                            tint = Color(0xFF6D4AFF),
+                                            modifier = Modifier.size(18.dp)
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        Text(
+                            text = "Category",
+                            fontFamily = Poppins,
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Ink
+                        )
+
+                        ExposedDropdownMenuBox(
+                            expanded = categoryMenuExpanded,
+                            onExpandedChange = {
+                                categoryMenuExpanded = it
+                                if (it) filterCategorySearch = ""
+                            },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            OutlinedTextField(
+                                value = if (categoryMenuExpanded) filterCategorySearch else filterCategory,
+                                onValueChange = { typed ->
+                                    filterCategorySearch = typed
+                                    categoryMenuExpanded = true
+                                },
+                                readOnly = false,
+                                singleLine = true,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .menuAnchor(MenuAnchorType.PrimaryEditable, enabled = true),
+                                trailingIcon = {
+                                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = categoryMenuExpanded)
+                                },
+                                shape = RoundedCornerShape(26.dp),
+                                colors = OutlinedTextFieldDefaults.colors(
+                                    focusedBorderColor = Color(0xFF8E78D8),
+                                    unfocusedBorderColor = Color(0xFFD8CFF0),
+                                    focusedContainerColor = Color.White,
+                                    unfocusedContainerColor = Color.White,
+                                    focusedTextColor = Ink,
+                                    unfocusedTextColor = Ink
+                                ),
+                                textStyle = androidx.compose.ui.text.TextStyle(
+                                    fontFamily = Poppins,
+                                    fontSize = 13.sp
+                                )
+                            )
+
+                            ExposedDropdownMenu(
+                                expanded = categoryMenuExpanded,
+                                onDismissRequest = { categoryMenuExpanded = false },
+                                modifier = Modifier
+                                    .heightIn(max = 280.dp)
+                                    .clip(RoundedCornerShape(30.dp))
+                                    .background(Color(0xFFF1EBFF))
+                                    .padding(6.dp)
+                            ) {
+                                val matchingCategories = (listOf("All") + categories).distinct().filter {
+                                    it.contains(filterCategorySearch, ignoreCase = true)
+                                }
+                                matchingCategories.forEach { cat ->
+                                    val selected = filterCategory == cat
+                                    DropdownMenuItem(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .clip(RoundedCornerShape(22.dp))
+                                            .background(
+                                                if (selected) Color(0xFFE2D8FF)
+                                                else Color.Transparent
+                                            ),
+                                        text = {
+                                            Text(
+                                                text = cat,
+                                                fontFamily = Poppins,
+                                                fontSize = 13.sp,
+                                                fontWeight = if (selected) FontWeight.SemiBold else FontWeight.Normal,
+                                                color = Ink
+                                            )
+                                        },
+                                        onClick = {
+                                            filterCategory = cat
+                                            filterCategorySearch = ""
+                                            categoryMenuExpanded = false
+                                        },
+                                        trailingIcon = if (selected) {
+                                            { Icon(Icons.Default.Check, contentDescription = null, tint = Color(0xFF6D4AFF)) }
+                                        } else null,
+                                        contentPadding = PaddingValues(horizontal = 14.dp, vertical = 5.dp)
+                                    )
+                                }
+                            }
+                        }
+
+                    } // End of scrollable filter controls
+
+                    // Keep Reset and Apply visible at the bottom of the sheet.
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp, bottom = 8.dp),
+                        horizontalArrangement = Arrangement.End,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        TextButton(onClick = {
+                            filterCategory = "All"
+                            filterType = "All"
+                            filterFromDate = null
+                            filterToDate = null
+                            quickCategory = "All"
+                            showFilterSheet = false
+                        }) {
+                            Text("Reset", fontFamily = Poppins, color = Color(0xFF6D4AFF))
+                        }
+                        Spacer(Modifier.width(8.dp))
+                        Button(
+                            onClick = { showFilterSheet = false },
+                            shape = RoundedCornerShape(16.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF25205A))
+                        ) {
+                            Text("Apply", fontFamily = Poppins, color = Color.White, fontWeight = FontWeight.SemiBold)
                         }
                     }
                 }
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    TextButton(onClick = {
-                        filterCategory = "All"
-                        filterType = "All"
-                        quickCategory = "All"
-                        showFilterSheet = false
-                    }) { Text("Reset") }
-                    Button(onClick = { showFilterSheet = false }) { Text("Apply") }
-                }
             }
+        }
+    }
+
+    val filterDateToastContext = androidx.compose.ui.platform.LocalContext.current
+
+    datePickerTarget?.let { target ->
+        val initialDate = if (target == "from") filterFromDate else filterToDate
+        val datePickerState = rememberDatePickerState(initialSelectedDateMillis = initialDate)
+        DatePickerDialog(
+            onDismissRequest = { datePickerTarget = null },
+            confirmButton = {
+                TextButton(onClick = {
+                    datePickerState.selectedDateMillis?.let { picked ->
+                        // Compare calendar days in UTC (the date picker stores UTC day millis).
+                        val todayUtc = java.util.Calendar.getInstance(java.util.TimeZone.getTimeZone("UTC")).apply {
+                            set(java.util.Calendar.HOUR_OF_DAY, 0)
+                            set(java.util.Calendar.MINUTE, 0)
+                            set(java.util.Calendar.SECOND, 0)
+                            set(java.util.Calendar.MILLISECOND, 0)
+                        }.timeInMillis
+
+                        when (target) {
+                            "from" -> {
+                                when {
+                                    picked > todayUtc -> Toast.makeText(
+                                        filterDateToastContext,
+                                        "From date cannot be in the future",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    filterToDate != null && picked >= filterToDate!! -> Toast.makeText(
+                                        filterDateToastContext,
+                                        "From date must be earlier than To date",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    else -> {
+                                        filterFromDate = picked
+                                        datePickerTarget = null
+                                    }
+                                }
+                            }
+                            "to" -> {
+                                if (filterFromDate != null && picked <= filterFromDate!!) {
+                                    Toast.makeText(
+                                        filterDateToastContext,
+                                        "To date must be later than From date",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else {
+                                    filterToDate = picked
+                                    datePickerTarget = null
+                                }
+                            }
+                        }
+                    } ?: run { datePickerTarget = null }
+                }) { Text("OK", fontFamily = Poppins, color = Color(0xFF6D4AFF)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { datePickerTarget = null }) {
+                    Text("Cancel", fontFamily = Poppins, color = Muted)
+                }
+            },
+        ) {
+            DatePicker(
+                state = datePickerState,
+                colors = DatePickerDefaults.colors(
+                    selectedDayContainerColor = Color(0xFF25205A),
+                    selectedDayContentColor = Color.White,
+                    todayDateBorderColor = Color(0xFF6D4AFF)
+                )
+            )
         }
     }
 }
@@ -1786,7 +2300,8 @@ private fun showTransactionNotification(context: Context, item: ExpenseEntity) {
         .setCustomContentView(compactView)
         .setCustomBigContentView(expandedView)
         .setStyle(NotificationCompat.DecoratedCustomViewStyle())
-        .setColor(if (isCredit) android.graphics.Color.rgb(53, 217, 128) else android.graphics.Color.rgb(255, 107, 114))
+        .setColor(android.graphics.Color.parseColor("#0B1F3A"))
+        .setColorized(true)
         .setPriority(NotificationCompat.PRIORITY_HIGH)
         .setCategory(NotificationCompat.CATEGORY_STATUS)
         .setAutoCancel(true)
@@ -1986,5 +2501,3 @@ private fun SectionTitle(text: String) {
 }
 
 private fun money(value: Double): String = String.format(Locale.US, "%,.2f", value)
-
-

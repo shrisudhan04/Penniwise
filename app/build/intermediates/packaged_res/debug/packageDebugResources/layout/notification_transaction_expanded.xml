@@ -1,25 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
-    android:orientation="vertical" android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
     android:background="@drawable/notification_navy_card">
-    <TextView android:id="@+id/notification_title" android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="CREDIT ALERT" android:textColor="#C7D5F7" android:textSize="12sp" android:textStyle="bold" />
-    <TextView android:id="@+id/notification_message" android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:layout_marginTop="8dp" android:text="Money received in your account." android:textColor="#FFFFFF" android:textSize="16sp" />
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="12dp"
-        android:orientation="horizontal" android:gravity="center_vertical" android:padding="12dp" android:background="@drawable/notification_inner_card">
-        <TextView android:id="@+id/notification_symbol" android:layout_width="40dp" android:layout_height="40dp"
-            android:gravity="center" android:text="↙" android:textSize="20sp" android:textStyle="bold" android:textColor="#35D980" android:background="@drawable/notification_symbol_bg" />
-        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="8dp">
-            <TextView android:id="@+id/notification_transaction_name" android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="Salary credit" android:textColor="#FFFFFF" android:textSize="14sp" android:textStyle="bold" />
-            <TextView android:id="@+id/notification_details" android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:text="NEFT · 3 Nov" android:textColor="#C7D5F7" android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/notification_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="CREDIT ALERT"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/notification_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Money received in your account."
+        android:textColor="#FFFFFF"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="12dp"
+        android:background="@drawable/notification_inner_card">
+
+        <TextView
+            android:id="@+id/notification_symbol"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:fontFamily="@font/poppins_bold"
+            android:gravity="center"
+            android:text="↙"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#4ADE80"
+            android:background="@drawable/notification_symbol_bg" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="8dp">
+
+            <TextView
+                android:id="@+id/notification_transaction_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Salary credit"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/notification_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:text="NEFT · 03 Nov"
+                android:textColor="#D6E0F0"
+                android:textSize="11sp" />
         </LinearLayout>
-        <TextView android:id="@+id/notification_amount" android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="+₹2,700" android:textColor="#FF6B72" android:textSize="17sp" android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/notification_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="+₹2,700.00"
+            android:textColor="#4ADE80"
+            android:textSize="14sp" />
+
     </LinearLayout>
-    <TextView android:id="@+id/notification_time" android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:gravity="end" android:layout_marginTop="8dp" android:text="09:05 AM" android:textColor="#8295C5" android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/notification_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="07:24 PM"
+        android:textColor="#D6E0F0"
+        android:textSize="10sp" />
+
 </LinearLayout>

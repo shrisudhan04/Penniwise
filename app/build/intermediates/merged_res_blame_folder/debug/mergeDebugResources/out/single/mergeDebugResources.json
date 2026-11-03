@@ -1,11 +1,43 @@
 [
     {
-        "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\font_poppins_lightitalic.ttf.flat",
-        "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\font\\poppins_lightitalic.ttf"
-    },
-    {
         "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\font_poppins_extralightitalic.ttf.flat",
         "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\font\\poppins_extralightitalic.ttf"
+    },
+    {
+        "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\font_poppins_thinitalic.ttf.flat",
+        "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\font\\poppins_thinitalic.ttf"
+    },
+    {
+        "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\drawable_notification_navy_card.xml.flat",
+        "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\drawable\\notification_navy_card.xml"
+    },
+    {
+        "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\drawable_notification_inner_card.xml.flat",
+        "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\drawable\\notification_inner_card.xml"
+    },
+    {
+        "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\font_poppins_mediumitalic.ttf.flat",
+        "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\font\\poppins_mediumitalic.ttf"
+    },
+    {
+        "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\layout_notification_transaction_expanded.xml.flat",
+        "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\layout\\notification_transaction_expanded.xml"
+    },
+    {
+        "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\font_poppins_bold.ttf.flat",
+        "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\font\\poppins_bold.ttf"
+    },
+    {
+        "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\font_poppins_bolditalic.ttf.flat",
+        "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\font\\poppins_bolditalic.ttf"
+    },
+    {
+        "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\font_poppins_extralight.ttf.flat",
+        "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\font\\poppins_extralight.ttf"
+    },
+    {
+        "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\font_poppins_lightitalic.ttf.flat",
+        "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\font\\poppins_lightitalic.ttf"
     },
     {
         "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\font_poppins_medium.ttf.flat",
@@ -24,24 +56,8 @@
         "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\font\\poppins_thin.ttf"
     },
     {
-        "merged": "com.smartexpensetracker.app-debug-63:/drawable_notification_symbol_bg.xml.flat",
-        "source": "com.smartexpensetracker.app-main-65:/drawable/notification_symbol_bg.xml"
-    },
-    {
-        "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\font_poppins_thinitalic.ttf.flat",
-        "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\font\\poppins_thinitalic.ttf"
-    },
-    {
-        "merged": "com.smartexpensetracker.app-debug-63:/drawable_notification_navy_card.xml.flat",
-        "source": "com.smartexpensetracker.app-main-65:/drawable/notification_navy_card.xml"
-    },
-    {
         "merged": "com.smartexpensetracker.app-debug-63:/layout_notification_transaction.xml.flat",
         "source": "com.smartexpensetracker.app-main-65:/layout/notification_transaction.xml"
-    },
-    {
-        "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\font_poppins_mediumitalic.ttf.flat",
-        "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\font\\poppins_mediumitalic.ttf"
     },
     {
         "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\font_poppins_light.ttf.flat",
@@ -52,16 +68,16 @@
         "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\font\\poppins_extrabold.ttf"
     },
     {
+        "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\drawable_notification_symbol_bg.xml.flat",
+        "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\drawable\\notification_symbol_bg.xml"
+    },
+    {
+        "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\layout_notification_transaction.xml.flat",
+        "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\layout\\notification_transaction.xml"
+    },
+    {
         "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\font_poppins_extrabolditalic.ttf.flat",
         "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\font\\poppins_extrabolditalic.ttf"
-    },
-    {
-        "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\font_poppins_bold.ttf.flat",
-        "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\font\\poppins_bold.ttf"
-    },
-    {
-        "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\font_poppins_bolditalic.ttf.flat",
-        "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\font\\poppins_bolditalic.ttf"
     },
     {
         "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\font_poppins_regular.ttf.flat",
@@ -80,15 +96,7 @@
         "source": "com.smartexpensetracker.app-main-65:/layout/notification_transaction_expanded.xml"
     },
     {
-        "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\font_poppins_extralight.ttf.flat",
-        "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\font\\poppins_extralight.ttf"
-    },
-    {
         "merged": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-debug-63:\\font_poppins_blackitalic.ttf.flat",
         "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\daemon\\9.3.0\\com.smartexpensetracker.app-main-65:\\font\\poppins_blackitalic.ttf"
-    },
-    {
-        "merged": "com.smartexpensetracker.app-debug-63:/drawable_notification_inner_card.xml.flat",
-        "source": "com.smartexpensetracker.app-main-65:/drawable/notification_inner_card.xml"
     }
 ]
