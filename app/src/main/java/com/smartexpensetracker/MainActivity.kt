@@ -6,6 +6,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.widget.RemoteViews
 import android.database.Cursor
 import android.provider.Telephony
 import android.os.Bundle
@@ -885,7 +886,6 @@ private fun TransactionsPage(
                                 manuallyAdded = true
                             )
                             showTransactionNotification(context, testItem)
-                            Toast.makeText(context, "Test credit notification sent.", Toast.LENGTH_SHORT).show()
                         },
                         colors = ButtonDefaults.textButtonColors(contentColor = Green)
                     ) {
@@ -1739,27 +1739,53 @@ private fun showTransactionNotification(context: Context, item: ExpenseEntity) {
         ).apply {
             description = "Alerts when bank SMS transactions are automatically detected"
             enableVibration(true)
+            setShowBadge(true)
         }
         manager.createNotificationChannel(channel)
     }
 
-    val isCredit = item.transactionType == "INCOME"
+    val isCredit = item.transactionType.equals("INCOME", ignoreCase = true)
     val amountText = (if (isCredit) "+" else "−") + "₹" + money(item.amount)
     val title = if (isCredit) "CREDIT ALERT" else "DEBIT ALERT"
     val message = if (isCredit) "Money received in your account." else "Money spent from your account."
     val transactionName = item.receiver.ifBlank { item.merchant.ifBlank { item.category } }
     val dateText = SimpleDateFormat("dd MMM", Locale.getDefault()).format(Date(item.transactionDate))
+    val timeText = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(Date(item.transactionDate))
     val details = "${item.paymentMethod.ifBlank { "Bank SMS" }} · $dateText"
+    val amountColor = if (isCredit) android.graphics.Color.rgb(53, 217, 128) else android.graphics.Color.rgb(255, 107, 114)
+
+    // Custom notification views provide the navy alert-card design from the reference.
+    val compactView = RemoteViews(context.packageName, R.layout.notification_transaction).apply {
+        setTextViewText(R.id.notification_title, title)
+        setTextViewText(R.id.notification_message, message)
+        setTextViewText(R.id.notification_transaction_name, transactionName)
+        setTextViewText(R.id.notification_details, details)
+        setTextViewText(R.id.notification_amount, amountText)
+        setTextViewText(R.id.notification_time, timeText)
+        setTextColor(R.id.notification_amount, amountColor)
+        setTextViewText(R.id.notification_symbol, if (isCredit) "↙" else "↗")
+        setTextColor(R.id.notification_symbol, amountColor)
+    }
+
+    val expandedView = RemoteViews(context.packageName, R.layout.notification_transaction_expanded).apply {
+        setTextViewText(R.id.notification_title, title)
+        setTextViewText(R.id.notification_message, message)
+        setTextViewText(R.id.notification_transaction_name, transactionName)
+        setTextViewText(R.id.notification_details, details)
+        setTextViewText(R.id.notification_amount, amountText)
+        setTextViewText(R.id.notification_time, timeText)
+        setTextColor(R.id.notification_amount, amountColor)
+        setTextViewText(R.id.notification_symbol, if (isCredit) "↙" else "↗")
+        setTextColor(R.id.notification_symbol, amountColor)
+    }
 
     val notification = NotificationCompat.Builder(context, TRANSACTION_NOTIFICATION_CHANNEL_ID)
         .setSmallIcon(android.R.drawable.stat_notify_more)
         .setContentTitle(title)
         .setContentText("$message $transactionName $amountText")
-        .setStyle(
-            NotificationCompat.BigTextStyle()
-                .setBigContentTitle(title)
-                .bigText("$message\n\n$transactionName\n$details\n$amountText")
-        )
+        .setCustomContentView(compactView)
+        .setCustomBigContentView(expandedView)
+        .setStyle(NotificationCompat.DecoratedCustomViewStyle())
         .setColor(if (isCredit) android.graphics.Color.rgb(53, 217, 128) else android.graphics.Color.rgb(255, 107, 114))
         .setPriority(NotificationCompat.PRIORITY_HIGH)
         .setCategory(NotificationCompat.CATEGORY_STATUS)

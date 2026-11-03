@@ -86,7 +86,10 @@ int drawable notification_bg_low_pressed 0x7f05000a
 int drawable notification_bg_normal 0x7f05000b
 int drawable notification_bg_normal_pressed 0x7f05000c
 int drawable notification_icon_background 0x7f05000d
+int drawable notification_inner_card 0x7f050013
+int drawable notification_navy_card 0x7f050014
 int drawable notification_oversize_large_icon_bg 0x7f05000e
+int drawable notification_symbol_bg 0x7f050015
 int drawable notification_template_icon_bg 0x7f05000f
 int drawable notification_template_icon_low_bg 0x7f050010
 int drawable notification_tile_bg 0x7f050011
@@ -169,9 +172,16 @@ int id line1 0x7f070038
 int id line3 0x7f070039
 int id nav_controller_view_tag 0x7f07003a
 int id normal 0x7f07003b
+int id notification_amount 0x7f070059
 int id notification_background 0x7f07003c
+int id notification_details 0x7f07005a
 int id notification_main_column 0x7f07003d
 int id notification_main_column_container 0x7f07003e
+int id notification_message 0x7f07005b
+int id notification_symbol 0x7f07005c
+int id notification_time 0x7f07005d
+int id notification_title 0x7f07005e
+int id notification_transaction_name 0x7f07005f
 int id pooling_container_listener_holder_tag 0x7f07003f
 int id report_drawn 0x7f070040
 int id right_icon 0x7f070041
@@ -209,6 +219,8 @@ int layout notification_template_custom_big 0x7f090005
 int layout notification_template_icon_group 0x7f090006
 int layout notification_template_part_chronometer 0x7f090007
 int layout notification_template_part_time 0x7f090008
+int layout notification_transaction 0x7f090009
+int layout notification_transaction_expanded 0x7f09000a
 int string androidx_startup 0x7f0a0000
 int string call_notification_answer_action 0x7f0a0001
 int string call_notification_answer_video_action 0x7f0a0002

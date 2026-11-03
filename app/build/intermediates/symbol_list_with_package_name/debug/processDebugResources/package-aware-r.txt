@@ -87,7 +87,10 @@ drawable notification_bg_low_pressed
 drawable notification_bg_normal
 drawable notification_bg_normal_pressed
 drawable notification_icon_background
+drawable notification_inner_card
+drawable notification_navy_card
 drawable notification_oversize_large_icon_bg
+drawable notification_symbol_bg
 drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
@@ -170,9 +173,16 @@ id line1
 id line3
 id nav_controller_view_tag
 id normal
+id notification_amount
 id notification_background
+id notification_details
 id notification_main_column
 id notification_main_column_container
+id notification_message
+id notification_symbol
+id notification_time
+id notification_title
+id notification_transaction_name
 id pooling_container_listener_holder_tag
 id report_drawn
 id right_icon
@@ -210,6 +220,8 @@ layout notification_template_custom_big
 layout notification_template_icon_group
 layout notification_template_part_chronometer
 layout notification_template_part_time
+layout notification_transaction
+layout notification_transaction_expanded
 string androidx_startup
 string call_notification_answer_action
 string call_notification_answer_video_action

@@ -1,5 +1,8 @@
 R_DEF: Internal format may change without notice
 local
+drawable notification_inner_card
+drawable notification_navy_card
+drawable notification_symbol_bg
 font poppins_black
 font poppins_blackitalic
 font poppins_bold
@@ -18,3 +21,12 @@ font poppins_semibold
 font poppins_semibolditalic
 font poppins_thin
 font poppins_thinitalic
+id notification_amount
+id notification_details
+id notification_message
+id notification_symbol
+id notification_time
+id notification_title
+id notification_transaction_name
+layout notification_transaction
+layout notification_transaction_expanded
