@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.smartexpensetracker.app-mergeDebugResources-61:/values-v23/values-v23.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\ShriSudhanBoobathi\\.gradle\\caches\\9.3.0\\transforms\\1063a3c92591a8c322ce0fa0374c42dc\\workspace\\transformed\\work-runtime-2.10.0\\res\\values-v23\\values-v23.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,121",
+                        "endColumns": "65,62",
+                        "endOffsets": "116,179"
+                    }
+                }
+            ]
+        }
+    ]
+}
